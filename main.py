@@ -1,7 +1,7 @@
 import logging
 import os
 import time
-import twilio
+from twilio.rest import Client
 
 ##Begin Config##
 logging.basicConfig(filename='log.log',
