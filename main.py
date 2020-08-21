@@ -12,7 +12,6 @@ logging.basicConfig(filename='log.log',
 hostnameToPing = ""
 timeToSleep = 300
 shouldRun = False
-initialStatus="Success"
 shouldText = False
 sendTextFeature = False
 account_sid = ''
