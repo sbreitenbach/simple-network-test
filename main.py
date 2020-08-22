@@ -1,6 +1,8 @@
 import logging
 import os
+import requests.exceptions
 import time
+from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 
 ##Begin Config##
@@ -27,8 +29,9 @@ def pingTheHost(hostname):
     if response == 0:
         logging.info(f"Ping of {hostname} was successful")
         if(shouldText and sendTextFeature):
-            sendTextMessage("The internet was out")
-            shouldText = False
+            textErrors = sendTextMessage("The internet was out")
+            if(textErrors is None):
+                shouldText = False
         return("Success")
     else:
         logging.warn(f"Ping of {hostname} has failed")
@@ -37,13 +40,20 @@ def pingTheHost(hostname):
 
 def sendTextMessage(messageText): 
     client = Client(account_sid, auth_token)
-    logging.debug(f"Sending a text")
-    message = client.messages.create(
-                              body=messageText,
-                              from_=fromNumber,
-                              to=toNumber
-                          )
-    return (message.error_code,message.body)
+    logging.debug(f"Sending a text with message {messageText} to {toNumber}")
+    try:
+        message = client.messages.create(
+                                  body=messageText,
+                                  from_=fromNumber,
+                                  to=toNumber
+                              )
+    except requests.exceptions.ConnectionError:
+        logging.error("Encountered a network error when sending a message")
+        return("Fail")
+    except TwilioRestException:
+        logging.error("Encountered a twilio error when sending a message")
+        return("Fail")
+    return (message.error_code)
 
 while shouldRun:
     pingTheHost(hostnameToPing)
