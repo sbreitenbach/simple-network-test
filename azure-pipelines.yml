@@ -17,6 +17,9 @@ strategy:
     Python38-linux:
       python.version: '3.8'
       imageName: 'ubuntu-latest'
+    Python39-linux:
+      python.version: '3.9'
+      imageName: 'ubuntu-latest'
     Python36-MacOS:
       python.version: '3.6'
       imageName: 'macOS-latest'
@@ -26,6 +29,9 @@ strategy:
     Python38-macOS:
       python.version: '3.8'
       imageName: 'macOS-latest'
+    Python39-macOS:
+      python.version: '3.9'
+      imageName: 'macOS-latest'
     Python36-Windows:
       python.version: '3.6'
       imageName: 'windows-latest'
@@ -34,6 +40,9 @@ strategy:
       imageName: 'windows-latest'
     Python38-Windows:
       python.version: '3.8'
+      imageName: 'windows-latest'
+    Python39-Windows:
+      python.version: '3.9'
       imageName: 'windows-latest'
 
 pool:
